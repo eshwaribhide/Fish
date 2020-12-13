@@ -10,11 +10,8 @@ The game commences with a round-robin placement phase, where players place a pen
 
 The game ends when no player can move any of their penguins. The player(s) who collected the most fish win the game. Each game is administered by a Referee who ensures that players are behaving well. 
 
-             
-**How to run the unit tests (xtest script)**
+Though there is no animation element to this project, the individual states of games can indeed be rendered visually. Here is what a game board looks like with a random number of fish, a few holes, and 1 placement round done:
+![alt text](http://url/to/img.png)
 
-How To Run the Unit Test Suite 
-
-- Navigate to the Fish folder
-- Run ./xtest (you'll see messages when it's running each set of unit tests and the results)
+Unit tests can be run by running Fish/xtest. 
  
