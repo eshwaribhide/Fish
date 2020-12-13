@@ -1,0 +1,14 @@
+echo '-----------RUNNING BOARD UNIT TESTS------------------'
+python3 Common/board_unit_tests.py
+echo '-----------RUNNING GAME STATE UNIT TESTS------------------'
+python3 Common/game_state_unit_tests.py
+echo '-----------RUNNING GAME TREE UNIT TESTS------------------'
+python3 Common/game_tree_unit_tests.py
+echo '-----------RUNNING STRATEGY UNIT TESTS------------------'
+cd Player
+python3 strategy_unit_tests.py
+echo '-----------RUNNING PLAYER UNIT TESTS------------------'
+python3 player_unit_tests.py
+cd ../Admin
+echo '-----------RUNNING REFEREE UNIT TESTS------------------'
+python3 referee_unit_tests.py
