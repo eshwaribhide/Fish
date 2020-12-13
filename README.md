@@ -11,7 +11,7 @@ The game commences with a round-robin placement phase, where players place a pen
 The game ends when no player can move any of their penguins. The player(s) who collected the most fish win the game. Each game is administered by a Referee who ensures that players are behaving well. 
 
 Though there is no animation element to this project, the individual states of games can indeed be rendered visually. Here is what a game board looks like with a random number of fish, a few holes, and 1 placement round done:
-![alt text](http://url/to/img.png)
+![alt text](https://github.com/eshwaribhide/Fish/blob/master/fish_board)
 
 Unit tests can be run by running Fish/xtest. 
  
