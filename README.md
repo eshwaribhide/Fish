@@ -13,6 +13,8 @@ The game ends when no player can move any of their penguins. The player(s) who c
 Unit tests can be run by running Fish/xtest. 
 
 Though there is no real-time game progress visualization element to this project, the individual states of games can indeed be rendered visually. Here is what a game board looks like with a random number of fish, a few holes, and 1 placement round done:
+
+
 ![alt text](https://github.com/eshwaribhide/Fish/blob/master/fish_board.jpeg)
 
 
