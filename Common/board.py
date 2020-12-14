@@ -32,7 +32,7 @@ class Board:
         # this value is error checked in Tile, since it depends on the max # of fish of which the
         # tile class has control
         # Also, it is initialized to None because there is a potential that it is unspecified
-        # we don't want to confuse it with 0, so the possible types are None (unspecified) or some val
+        # I don't want to confuse it with 0, so the possible types are None (unspecified) or some val
         # >= 1.
         self.__num_of_fish_per_tile = num_of_fish_per_tile
 
