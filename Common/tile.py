@@ -1,11 +1,11 @@
 class __Tile:
     """
-    This class represents a Tile. It is passed in the arg, fish_count, which is the amount of fish on the tile.
+    This class represents a Tile on the board.
 
-    This is a private class, as we don't want the user to have direct access to it. Functionality in terms of
+    This is a private class, as I don't want the user to have direct access to it. Functionality in terms of
     rendering is done through board methods.
 
-    :param fish_count: the amount of fish on the tile
+    :param fish_count: the number of fish on the tile
     """
     def __init__(self, num_fish_per_tile):
         self.__num_fish_per_tile = num_fish_per_tile
