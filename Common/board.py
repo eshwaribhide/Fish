@@ -3,40 +3,19 @@ from tile_fish_penguin_constants import MAX_FISH
 import random
 
 """
-holes is of the form {row : [columns]}
-tiles is of the form [[row, col]]
+A BOARD IS COMPOSED OF TILES (DOUBLE-NESTED ARRAY OF TILE OBJECTS, SEE BELOW FOR MORE INFO RIGHT ABOVE SELF.__TILES).
+A BOARD HAS A SET NUMBER OF ROWS AND COLUMNS (BOTH ARE INTS). A BOARD ALSO HAS THE POTENTIAL TO HAVE HOLES. A HOLE IS A TILE
+THAT HAS ITS VISIBILITY SET TO FALSE. IN A REAL BOARD, IT WOULD BE AN EMPTY SPOT. A BOARD DOES NOT HAVE TO HAVE HOLES. 
+A BOARD HAS THE POTENTIAL TO HAVE A MINIMUM NUMBER OF ONE-FISH TILES AND A NUMBER OF FISH PER TILE (BOTH INTS), BUT DOES NOT HAVE TO.
 
 Coordinate System of [row, col]. They are 0-indexed. So [0,0] represents the leftmost, topmost position on the board, [0,1]
 is the position directly to the right but in the same row as [0,0]. [1,0] is the position directly below but in the same
 column as [0,0], and these values also correspond to the indexes in self.__tiles, which can be used to find
 the corresponding tile at the position. So if you want to find the tile located at [0,0] in the board, do self.__tiles[0][0].
-
-A BOARD IS COMPOSED OF TILES (DOUBLE-NESTED ARRAY OF TILE OBJECTS, SEE BELOW FOR MORE INFO RIGHT ABOVE SELF.__TILES).
-A BOARD HAS A SET NUMBER OF ROWS AND COLUMNS (BOTH ARE INTS). A BOARD ALSO HAS THE POTENTIAL TO HAVE HOLES. A HOLE IS A TILE
-THAT HAS ITS VISIBILITY SET TO FALSE. IN A REAL BOARD, IT WOULD BE AN EMPTY SPOT. A BOARD DOES NOT HAVE TO HAVE HOLES. 
-A BOARD HAS THE POTENTIAL TO HAVE A MINIMUM NUMBER OF ONE-FISH TILES AND A NUMBER OF FISH PER TILE (BOTH INTS), BUT DOES NOT HAVE TO.
-SO, A BOARD IS A CLASS WITH CERTAIN VARIABLES REPRESENTING ALL THESE THINGS. PLEASE SEE THE IMPLEMENTATION
-OF THE CLASS BELOW FOR MORE SPECIFICS.
 """
 
-
 class Board:
-    """
-    This class is the data representation of a Board. 
-    :param rows: the amount of rows, an int
-    :param columns: the amount of columns, an int
-    :param holes: the posns of the holes, a dict {row : [columns]} where the rows & columns represent the posns of
-    empty tiles, we chose to use a dictionary to use less space than a double-nested array of [[row, col]]
-    :param min_num_one_fish_tiles: 0 predetermined, otherwise an int that the user specifies
-    :param num_of_fish_per_tile: None predetermined, otherwise an int that the user specifies
-    # num of fish per tile is initialized to None because there is a potential that it is unspecified
-    # we don't want to confuse it with 0, so the possible types are None (unspecified) or some val
-    # >= 1.
-
-    See DATA DEFINITION OF TILES BELOW (right above declaration of tiles class variable).
-    AND SEE ABOVE FOR THE DATA TYPES OF EACH VARIABLE!!!
-    """
-
+    
     def __init__(self, rows, columns, holes, min_num_one_fish_tiles=0, num_of_fish_per_tile=None):
         self.__error_check_rows_and_columns(rows, columns)
         self.__error_check_holes(holes)
@@ -46,11 +25,15 @@ class Board:
 
         self.__rows = rows
         self.__columns = columns
+        # the posns of the holes, a dict {row : [columns]}
         self.__holes = holes
         self.__min_num_one_fish_tiles = min_num_one_fish_tiles
 
         # this value is error checked in Tile, since it depends on the max # of fish of which the
         # tile class has control
+        # Also, it is initialized to None because there is a potential that it is unspecified
+        # we don't want to confuse it with 0, so the possible types are None (unspecified) or some val
+        # >= 1.
         self.__num_of_fish_per_tile = num_of_fish_per_tile
 
         # Data description: a 2D array where the length of the array is the # of rows, and the length of each nested
@@ -60,7 +43,6 @@ class Board:
 
         self.__initialize_game_board()
 
-    # static method because it has nothing to do with modifying the class state
     @staticmethod
     def __error_check_rows_and_columns(rows, columns):
         """
