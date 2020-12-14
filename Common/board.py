@@ -160,8 +160,9 @@ class Board:
 
     def __get_reachable_posns_help(self, start_posn, pos_acc, lo_all_penguin_posns, recurse, **kwargs):
         """
-         [int, int] [[int, int]] [[int, int]] bool {str:int, str:int, str:int, str:int} -> [[int, int]]
-        Helper function to find reachable posns of a tile. There is a flag called recurse. If you only want to see the reachable posns that are one step
+        [int, int] [[int, int]] [[int, int]] bool {str:int, str:int, str:int, str:int} -> [[int, int]]
+        Helper function to find reachable posns of a tile. There is a flag called recurse. If you only want 
+        to see the reachable posns that are one step
         away, then recurse will be set to False. If you want to see all the reachable posns, then
         recurse is True.
         :param start_posn a List of the form [row, col] where row and col are both ints that we
