@@ -5,8 +5,8 @@ class __Fish:
     """
     This class represents a Fish image. 
 
-    This is a private class, as I don't want the user to have direct access to it. Functionality is done
-    through board methods. This is why I don't error check x and y because that will be done in the board methods.
+    This is a private class, as I don't want the user to have direct access to it. Functionality (which includes error checking x & y) is done
+    through board methods. 
     :param x: the x coordinate of the fish
     :param y: the y coordinate of the fish
     """
