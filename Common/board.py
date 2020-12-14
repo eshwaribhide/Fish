@@ -11,7 +11,7 @@ A BOARD HAS THE POTENTIAL TO HAVE A MINIMUM NUMBER OF ONE-FISH TILES AND A NUMBE
 Coordinate System of [row, col]. They are 0-indexed. So [0,0] represents the leftmost, topmost position on the board, [0,1]
 is the position directly to the right but in the same row as [0,0]. [1,0] is the position directly below but in the same
 column as [0,0], and these values also correspond to the indexes in self.__tiles, which can be used to find
-the corresponding tile at the position. So if you want to find the tile located at [0,0] in the board, do self.__tiles[0][0].
+the corresponding tile at the position.
 """
 
 class Board:
