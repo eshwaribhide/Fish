@@ -3,11 +3,10 @@ from tile_fish_penguin_constants import FISH_SIZE
 
 class __Fish:
     """
-    This class represents a Fish image. It is passes in the args, x & y, which represents the x & y coordinates of
-    the fish.
+    This class represents a Fish image. 
 
-    This is a private class, as we don't want the user to have direct access to it. Functionality is done
-    through board methods. This is why we don't error check x and y because that will be done in the board methods.
+    This is a private class, as I don't want the user to have direct access to it. Functionality is done
+    through board methods. This is why I don't error check x and y because that will be done in the board methods.
     :param x: the x coordinate of the fish
     :param y: the y coordinate of the fish
     """
@@ -15,11 +14,11 @@ class __Fish:
         self.__x = x
         self.__y = y
 
-    # we create one little triangle + one little circle next to it = fish image
+    # create one little triangle + one little circle next to it = fish image
     def draw_fish(self, canvas, placement_offset):
         """
         Draws the fish on the canvas, which is passed in from board.
-        :param placement_offset: dictates are you the 1st, 2nd, 3rd...etc fish to be placed. So we move down
+        :param placement_offset: dictates whether you are the 1st, 2nd, 3rd...etc fish to be placed. So I move down
         based on what number fish you are.
         :param canvas: The canvas is passed in through the board.
         """
