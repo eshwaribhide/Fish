@@ -381,7 +381,7 @@ class GameState:
         Nothing (uses class variables) -> Nothing
         Function to draw the game state (the game board with tiles and fish, and penguins on it). 
         A tile that is invisible still has its outline drawn for a better user experience.
-        We determine x and y posns of the tiles based on the dimensions of a tile and give offsets 
+        I determine x and y posns of the tiles based on the dimensions of a tile and give offsets 
         depending on the row and col and whether they are even or odd values.
         """
         root = tkinter.Tk()
