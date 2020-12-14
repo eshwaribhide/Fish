@@ -180,8 +180,7 @@ class Board:
     def __get_reachable_posns_help(self, start_posn, pos_acc, lo_all_penguin_posns, recurse, **kwargs):
         """
          [int, int] [[int, int]] [[int, int]] bool {str:int, str:int, str:int, str:int} -> [[int, int]]
-        Helper function to find reachable posns of a tile.There is a flag called recurse. This was added due
-        to the integration tests. If you only want to see the reachable posns that are one step
+        Helper function to find reachable posns of a tile. There is a flag called recurse. If you only want to see the reachable posns that are one step
         away, then recurse will be set to False. If you want to see all the reachable posns, then
         recurse is True.
         :param start_posn a List of the form [row, col] where row and col are both ints that we
@@ -230,9 +229,8 @@ class Board:
         Function to find reachable posns of a tile. There are six directions that define reachability,
         which are north, northwest, southwest, south, southeast, and northeast. This function will get
         all the posns that are reachable in all the different directions and then tack them on to
-        reachable_posns, which is the return. There is a flag called recurse. This was added due
-        to the integration tests. If you only want to see the reachable posns that are one step
-        away, then recurse will be set to False. If you want to see all the reachable posns, then
+        reachable_posns, which is the return. There is a flag called recurse. If you only want to see the reachable posns 
+        that are one step away, then recurse will be set to False. If you want to see all the reachable posns, then
         recurse is True.
         :param start_posn a List of the form [row, col] where row and col are both ints that we
         are calculating reachable posns relative to
