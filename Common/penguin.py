@@ -20,7 +20,6 @@ class __Penguin:
     def draw_penguin(self, canvas):
         """
         Draws the penguin on the canvas.
-        :param canvas: The canvas is passed in through the board.
         """
         # little circle
         canvas.create_oval(self.__x + FISH_SIZE//2, self.__y, self.__x + PENGUIN_SIZE, self.__y+FISH_SIZE, fill=f'{self.__color}')
