@@ -8,7 +8,7 @@ potential to have holes. A hole is a tile that has its visibility set to false. 
 spot. A board does not have to have holes. A board has the potential to have a minimum number of one-fish tiles and a 
 number of fish per tile (both ints), but does not have to.
 
-A board uses the coordinate System of [row, col], 0-indexed. So [0,0] represents the leftmost, topmost position on the 
+A board uses the coordinate system of [row, col], 0-indexed. So [0,0] represents the leftmost, topmost position on the 
 board, [0,1] is the position directly to the right but in the same row as [0,0]. [1,0] is the position directly below 
 but in the same column as [0,0], and these values also correspond to the indexes in self.__tiles, which can be used to 
 find the corresponding tile at the position.
