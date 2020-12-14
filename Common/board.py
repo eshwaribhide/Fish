@@ -166,7 +166,7 @@ class Board:
         :param start_posn a List of the form [row, col] where row and col are both ints that we
         are calculating reachable posns relative to
         :param pos_acc:  list of all of the reachable posns
-        :param lo_all_penguin_posns: a List of the form [row] col where row and col are both ints, representing
+        :param lo_all_penguin_posns: a List of the form [[row, col]] where row and col are both ints, representing
         posns on which penguins are resting, so as to not deem them reachable.
         :param recurse Will be true if recursion should be done at the end of the method, and False if not
         :param **kwargs: keyword args, essentially a dictionary that contains even/odd row/col shifts
@@ -214,7 +214,7 @@ class Board:
         recurse is True.
         :param start_posn a List of the form [row, col] where row and col are both ints that we
         are calculating reachable posns relative to
-        :param lo_all_penguin_posns a List of the form [row] col where row and col are both ints, representing
+        :param lo_all_penguin_posns a List of the form [[row, col]] where row and col are both ints, representing
         posns on which penguins are resting, so as to not deem them reachable.
         :param recurse Set to true if recursion should be done in the helper method, and False if not
         :return a double-nested array containing all the posns that are reachable
