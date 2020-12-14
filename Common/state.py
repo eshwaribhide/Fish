@@ -4,11 +4,6 @@ from tile_fish_penguin_constants import TILE_SIZE
 import tkinter
 
 """
-player_penguin_colors is of the form {player_id: player_penguin_color}
-player_order is of the form [player_id]
-player_fish_count is of the form {player_id: fish_count}
-penguin_posns is of the form {player_id: [[row,col]]}
-
 A GAME STATE REPRESENTS THE CURRENT STATE OF THE GAME. A GAME STATE HAS INFORMATION ABOUT THE STATE OF
 THE BOARD. THIS IS DONE BY HAVING THE GAME STATE CONTAIN A BOARD OBJECT WITHIN IT (SEE BOARD.PY FOR DETAILS).
 THIS MEANS THE GAME STATE HAS INFORMATION ABOUT WHAT TILES ARE ON THE BOARD, WHERE THE HOLES ARE ON A BOARD,
@@ -17,12 +12,6 @@ ALSO HAS KNOWLEDGE OF THE PLAYER PENGUIN COLORS, THE ORDER IN WHICH PLAYERS PLAY
 CURRENTLY IS, HOW MANY FISH EACH PLAYER HAS, AND WHERE EACH PLAYER'S PENGUINS ARE LOCATED.
 THE NUMBER OF PLAYERS IS IMPLICITLY DEFINED BY THE LENGTH OF THE PLAYER PENGUIN COLORS DICT/PLAYER ORDER LIST!
 SO IT IS NOT PASSED IN AS A PARAMETER!!!
-
-SO, A GAME STATE IS A CLASS WITH CERTAIN VARIABLES REPRESENTING ALL THESE THINGS. PLEASE SEE THE IMPLEMENTATION
-OF THE CLASS BELOW FOR MORE SPECIFICS.
-
-A GAME STATE CAN REPRESENT/CAN BE EXAMINED TO OBSERVE WHETHER A PLAYER IS STUCK (LOOK AT THE skip_turn METHOD), 
-WHETHER A PLAYER CAN MOVE/PLACE PENGUINS, OR WHETHER THE GAME IS OVER (SEE is_game_over METHOD).
 """
 
 # on the board, this is the x offset for placing a tile. so the leftmost tile will have x of 5..etc. this
@@ -35,19 +24,7 @@ TILE_Y_OFFSET = 10
 
 
 class GameState:
-    """
-    The purpose of this class is to provide a data representation for a GameState. I have determined the data
-    representation of a GameState to hold different things. It will take in a board, each player's penguins' color,
-    and the order in which players will play. These should be all passed in by the referee. Then, I also think
-    that the GameState needs to know whose turn it is, how many fish each player has, and where each player's
-    penguins are located. Also, I decided to move all rendering functionality from the board to the GameState.
-    I also have the notion of an intermediate game construction by giving an option, but not a requirement, to pass in
-    player_fish_count and penguin_posns. To support a beginning game state construction, where those
-    values could not possibly have been initialized, I initialize them to None.
-
-
-    PLEASE SEE COMMENTS BELOW FOR DETAILS ON THE DATA DEFINITIONS OF EACH VARIABLE!!!!!
-    """
+    
     def __init__(self, board, player_penguin_colors, player_order,
                  player_fish_count=None, penguin_posns=None):
         # initialized and passed in by the referee. Is a Board object (see board.py) for the data definition
@@ -63,7 +40,7 @@ class GameState:
         # Is a list of the form [player_id], where a player_id is an int.
         # It needs to be passed in by the referee because the referee has knowledge about the players'
         # ages.
-        # We know whose turn it is based on what the first element in this list is. In other words, at the present
+        # I know whose turn it is based on what the first element in this list is. In other words, at the present
         # moment it is will be player_order[0]'s turn
         self.__player_order = player_order
 
@@ -96,7 +73,6 @@ class GameState:
         """
         penguin_posns = {}
         num_of_players = len(self.__player_penguin_colors)
-        # 6 IS NOT A MAGIC NUMBER; IT IS DEFINED IN THE RULES FOR FISH
         penguins_per_player = 6 - num_of_players
 
         for player_id in self.__player_penguin_colors:
@@ -108,8 +84,6 @@ class GameState:
         """
         [int, int] -> bool
         Checks if the selected tile posn is out of bounds.
-        I am making it public because a referee might need it for rule-checking and a player might
-        need it to make sure they are moving to a posn on the board.
         :param posn: an list representing row as first val and col as second val
         :returns True if either the row or col val is out of bounds and false if not
         """
@@ -125,7 +99,7 @@ class GameState:
         """
         int [int,int] -> bool
         The purpose of this function is to simply verify for a player id, if they have a penguin at a particular
-        posn. I am making it public because referees might need to use it for rule-checking.
+        posn.
         :param player_id: an int that represents a unique player
         :param posn: a List of the form [row, col] where row and col are both ints
         :return True if the player has a penguin at the posn and False if not
@@ -136,9 +110,8 @@ class GameState:
     def is_hole(self, posn):
         """
         [int, int] -> bool
-        The purpose of this function is to check whether a particular posn is a hole. It is useful
-        in the placement phase. I am making it public because a referee can use it for rule-checking
-        and a player can use it to make sure they are not placing on a wrong spot.
+        
+        Checks whether a particular posn is a hole. 
         :param posn: a List of the form [row, col] where row and col are both ints
         :return: True if the tile is a hole (its visibility is set to False) and False if not
         """
@@ -152,11 +125,10 @@ class GameState:
     def is_unoccupied(self, posn):
         """
         [int, int] -> bool
+        
         The purpose of this function is to check whether this slot is unoccupied: in other words, that 
         there is no penguin who is currently located at this spot. This is done by making sure the posn
         does not appear in any player's current penguin posns.
-        I am making this function a public function because it seems like something referees will need
-        for rule-checking and players will need to determine where to move next.
         :param posn: a List where the first value represents the row, the second value represents the column
         of a particular posn
         :return: True if no penguin is currently at the posn and False if not
