@@ -6,7 +6,8 @@ A GameTree is a class that represents an entire game, all possible permutations 
 penguins. Each tree node is either a leaf (aka a game over node) or an internal node (has child GameTrees). My structure fits the definition
 of (GameState, Dict(Action -> GameTree)). This means that the "data" of the GameTree is of type GameState, and each tree
 has a class variable of the type Dict(Action -> GameTree) that maps each "edge" (representing a legal Action) 
-to each legal successor GameTree that will result from taking that Action. I call this class variable map_action_to_child_nodes.
+to each legal successor GameTree that will result from taking that Action. I call this class variable map_action_to_child_nodes. It is assumed
+that the GameState given to a GameTree has completed the penguin placement phase.
 
 "game over" Nodes, aka leaves, will have an empty map_action_to_child_nodes, since there are no legal actions or legal child trees. So
 it will look like {}.
@@ -25,19 +26,12 @@ representing a time when a Player cannot make a move, is of the form ().
 
 """
 
-# Class Signature: A GameTree is passed in one parameter, which is called game_state and is of the type GameState.
-# This game state is any game state for which all penguins have been placed.
-
 
 class GameTree:
-    """
-    See above for Class signature. See comments below for the data definitions of each variable.
-    """
     def __init__(self, game_state):
         assert game_state.is_placement_phase_over(), "State is invalid, penguin placement phase " \
                                                      "is still ongoing"
 
-        # this is of the type GameState
         self.__game_state = game_state
 
         # this is a Dict of the type (Action -> GameTree) that maps each "edge" (legal action) to each legal successor
@@ -52,11 +46,10 @@ class GameTree:
 
     """
     Nothing -> Nothing
-    A generator function generating a layer of the game tree at every iteration. This does NOT generate the whole tree
-    at once, as I just said it generates only a layer at a time, so the generation is "suspended/frozen" until the
-    next_layer() method is called by the user, which will advance the generator. Essentially, this method
-    generate_game_tree is never called directly; that is why it is private.
     
+    A generator function generating a layer of the game tree at every iteration. This does NOT generate the whole tree
+    at once, so the generation is "suspended/frozen" until the next_layer() method is called by the user, which will 
+    advance the generator. Essentially, this method generate_game_tree is never called directly; that is why it is private.
     """
     def __generate_game_tree(self):
         while True:
@@ -79,7 +72,7 @@ class GameTree:
                 yield
 
     """
-    Nothing (uses class variables) -> Nothing  (if we are not done with the game for all parent states)
+    Nothing (uses class variables) -> Nothing (if we are not done with the game for all parent states)
     Nothing -> String (if we are indeed done with the game for all parent states)
     
     A wrapper method for the build in "next" method, used to advance a generator. 
