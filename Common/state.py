@@ -4,11 +4,10 @@ from tile_fish_penguin_constants import TILE_SIZE
 import tkinter
 
 """
-A GAME STATE REPRESENTS THE CURRENT STATE OF THE GAME. IT ESSENTIALLY CAN TELL YOU WHAT THE STATE OF A BOARD IS
-(WHAT TILES ARE ON THE BOARD, WHERE THE HOLES ARE ON A BOARD,
-HOW MANY FISH ARE ON A TILE, ETC) SIMPLY THROUGH THIS CONTAINMENT OF THE BOARD OBJECT, AND ALSO THINGS SUCH AS
-THE PLAYER PENGUIN COLORS, THE ORDER IN WHICH PLAYERS PLAY, WHOSE TURN IT
-CURRENTLY IS, HOW MANY FISH EACH PLAYER HAS, AND WHERE EACH PLAYER'S PENGUINS ARE LOCATED.
+This class essentially can tell you what the state of a game is, giving you a snapshot of the game at a particular 
+moment in time. This includes things like the state of the board (what tiles are on the board, where the holes are 
+on the board, how many fish are on a tile, etc) and things like the player penguin colors, the order in which 
+players play, whose turn it currently is, how many fish each player has, and where each player's penguins are located.
 """
 
 # on the board, this is the x offset for placing a tile. so the leftmost tile will have x of 5..etc. this

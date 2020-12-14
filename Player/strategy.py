@@ -26,8 +26,7 @@ a time when a Player cannot make a move, is of the form ().
 """
 
 # Class Signature: A Strategy is passed in two parameters, game_state (type is GameState) and player_id (type is int). A
-# player_id is a reference to a Player; it will be determined by the tournament manager. For now, I thought it was
-# necessary to deal with player ids as we don't have a Player class yet.
+# player_id is a reference to a Player.
 
 # Assumptions: This game state that is passed in is the CURRENT game state for which the game is not over, otherwise there would
 # be no point of this class. I also assume that in the passed in game state, the turn is of the player who is
@@ -35,13 +34,9 @@ a time when a Player cannot make a move, is of the form ().
 
 
 class Strategy:
-    # Please see above for Class Signature & Assumptions
     def __init__(self, game_state, player_id):
-        # This represents the current game state, is of type GameState
         self.__game_state = game_state
-        # This represents the current game tree, is of type GameTree
         self.__game_tree = None
-        # This represents the player id of the player using this Strategy instance, is of type int
         self.__player_id = player_id
 
     """

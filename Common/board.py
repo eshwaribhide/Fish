@@ -3,16 +3,17 @@ from tile_fish_penguin_constants import MAX_FISH
 import random
 
 """
-A BOARD IS COMPOSED OF TILES (DOUBLE-NESTED ARRAY OF TILE OBJECTS, SEE BELOW FOR MORE INFO RIGHT ABOVE SELF.__TILES).
-A BOARD HAS A SET NUMBER OF ROWS AND COLUMNS (BOTH ARE INTS). A BOARD ALSO HAS THE POTENTIAL TO HAVE HOLES. A HOLE IS A TILE
-THAT HAS ITS VISIBILITY SET TO FALSE. IN A REAL BOARD, IT WOULD BE AN EMPTY SPOT. A BOARD DOES NOT HAVE TO HAVE HOLES. 
-A BOARD HAS THE POTENTIAL TO HAVE A MINIMUM NUMBER OF ONE-FISH TILES AND A NUMBER OF FISH PER TILE (BOTH INTS), BUT DOES NOT HAVE TO.
+A board is composed of tiles. A board has a set number of rows and columns (both are ints). A board also has the 
+potential to have holes. A hole is a tile that has its visibility set to false. In a real board, it would be an empty 
+spot. A board does not have to have holes. A board has the potential to have a minimum number of one-fish tiles and a 
+number of fish per tile (both ints), but does not have to.
 
-Coordinate System of [row, col]. They are 0-indexed. So [0,0] represents the leftmost, topmost position on the board, [0,1]
-is the position directly to the right but in the same row as [0,0]. [1,0] is the position directly below but in the same
-column as [0,0], and these values also correspond to the indexes in self.__tiles, which can be used to find
-the corresponding tile at the position.
+A board uses the coordinate System of [row, col], 0-indexed. So [0,0] represents the leftmost, topmost position on the 
+board, [0,1] is the position directly to the right but in the same row as [0,0]. [1,0] is the position directly below 
+but in the same column as [0,0], and these values also correspond to the indexes in self.__tiles, which can be used to 
+find the corresponding tile at the position.
 """
+
 
 class Board:
     

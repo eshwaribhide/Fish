@@ -16,7 +16,7 @@ class __Penguin:
         self.__y = y
         self.__color = color
 
-    # we create one little circle + one oval below it = penguin image
+    # I create one little circle + one oval below it = penguin image
     def draw_penguin(self, canvas):
         """
         Draws the penguin on the canvas.

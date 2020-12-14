@@ -5,21 +5,12 @@ TURNS_LOOK_AHEAD = 2
 
 """
 A Player is an object that exists to provide the game-playing logic of placing and moving avatars, so the Referee will
-call the player interface methods at the appropriate time. A PLAYER WILL NOT ACTUALLY DO THE PLACING OR THE MOVING, 
-SO AS NOT TO DIRECTLY MANIPULATE THE OFFICIAL GAME STATE, AND THE RETURN VALUES OF THE PLACE_AVATAR OR MOVE_AVATAR
-FUNCTIONS WILL BE FIRST CHECKED BY THE REFEREE AND THEN USED TO MAKE THE PLACEMENT OR THE MOVE. 
+call the player interface methods at the appropriate time. A player will not actually do the placing or the moving, 
+so as not to directly manipulate the official game state, and the return values of the place_avatar or move_avatar
+functions will be first checked by the referee and then used to make the placement or the move. 
 
 A Player can exist for multiple games in a tournament and maybe even multiple tournaments. So, in order to uniquely
 identify the player throughout my whole codebase, the player has an attribute called player_id, which is an int. 
-This was a design choice that I felt was appropriate. NOTE: THIS IMPLIES THAT I DON'T NEED TO TELL THE PLAYER WHAT 
-COLOR PENGUIN THEY ARE WHEN A GAME STARTS BECAUSE ALL PENGUIN COLOR MAPPING AND PENGUIN POSITION MAPPING IS DONE
-IN THE GAME STATE WITH THE PLAYER_ID, THE PLAYER_ID ATTRIBUTE WILL STAY CONSTANT THROUGHOUT THE "LIFE" OF A 
-PLAYER INSTANCE. THE PLAYER REALLY DOESN'T CARE WHAT COLOR THEY ARE OR WHERE THEIR PENGUINS ARE BECAUSE THEY ARE
-USING THE STRATEGY INTERFACE METHODS TO DETERMINE WHAT PLACEMENT/MOVE TO MAKE. THIS MAY BE DIFFERENT FOR FOREIGN 
-PLAYERS, BUT I AM NOT CONSIDERING THAT NOW.
-
-Therefore, the game_has_started and game_has_ended methods are kind of useless, but I have kept them here in case
-maybe there will be a use for them in the future.
 
 An Action is a tuple of the form ((start_row, start_col), (dest_row, dest_col)). 
 Where *row, and *col are both ints. (start_row, start_col) is the current location of a penguin, and (dest_row, dest_col) 
@@ -27,13 +18,10 @@ is the location that the penguin wants to go to. See board.py for details on the
 representing a time when a Player cannot make a move, is of the form ().
 """
 
-# Class Signature: player_id is an int
-
 
 class Player:
 
     def __init__(self, player_id):
-        # see above for info about this
         self.__player_id = player_id
         # A boolean that will be True if the game that the Player is playing in has started and is ongoing. If that is 
         # not true, this will be False (either game has not yet started though Player may/may not be allocated to the game already, or the game ended).

@@ -1,7 +1,6 @@
 import copy
 
 """
-Game Tree Data Def:
 A GameTree is a class that represents an entire game, all possible permutations of where players might place their
 penguins. Each tree node is either a leaf (aka a game over node) or an internal node (has child GameTrees). My structure fits the definition
 of (GameState, Dict(Action -> GameTree)). This means that the "data" of the GameTree is of type GameState, and each tree
@@ -109,7 +108,7 @@ class GameTree:
     given game state, then I return an empty list [].
     """
     def all_actions_to_child_nodes(self):
-        #"game over" node
+        # "game over" node
         if self.__game_state.is_game_over():
             return {}
 

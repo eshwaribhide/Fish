@@ -30,20 +30,18 @@ A Referee is an object created SOLELY FOR AN INSTANCE OF A SPECIFIC GAME (IT WON
 It supervises/runs a Fish game, given a list of players ordered by age and dimensions of the board, and then reports the 
 game outcome once the game is over.
 
-IN ORDER TO MAKE SURE THAT THE 
-PLAYER DOES NOT DIRECTLY MANIPULATE THE GAME STATE, THE PLAYER WILL NOT BE ACTUALLY DOING THE PLACING OR THE MOVING; 
-THE RETURN TYPE OF PLAYER PLACE_AVATAR AND MOVE_AVATAR WILL 
-BE THE REQUESTED PLACEMENT OR ACTION, AND IF THAT PLACEMENT POSITION OR ACTION IS LEGAL, THEN THE REFEREE WILL ASK 
-THE GAME STATE TO EXECUTE IT. THE REFEREE IS THEREFORE IN CHARGE OF CATCHING ANY ABNORMAL INTERACTIONS BETWEEN THE 
-REFEREE AND A PLAYER AND ELIMINATING THE PLAYER IF THEY DO THIS.
+In order to make sure that the 
+player does not directly manipulate the game state, the player will not be actually doing the placing or the moving; 
+the return type of player place_avatar and move_avatar will 
+be the requested placement or action, and if that placement position or action is legal, then the referee will ask 
+the game state to execute it. The referee is therefore in charge of catching any abnormal interactions between the 
+referee and a player and eliminating the player if they do this.
 
 Abnormal interactions between Referee and Player:
 - Gives a data structure other than the expected data structure for the phase it is in. For placement phase, exp structure
 is a List, and for moving phase, exp structure is a tuple. 
 - Gives illegal placements/actions.
 """
-
-# Class Signature: player_seq is a List of Player objects, board_rows is an int, board_columns is an int
 
 
 class Referee:
@@ -89,7 +87,6 @@ class Referee:
     def __setup(self):
         board = self.__create_board() if self.__test_board is None else self.__test_board
         player_ids = [player.get_player_id() for player in self.__player_seq]
-        # penguin color assignment
         player_penguin_colors = {player_id: PENGUIN_COLORS[i] for i, player_id in enumerate(player_ids)}
         self.__current_game_state = GameState(board, player_penguin_colors, player_ids)
 
@@ -164,17 +161,12 @@ class Referee:
     """
     PhaseType List -> Nothing (if phase_type is PLACEMENT). Since type of a Placement is a List. 
     PhaseType Tuple -> Nothing (if phase_type is MOVING). Since type of an Action is a tuple.
-    See top of this file where Placements and Actions are described more in detail. 
     
     Handles either a placement or moving phase by having the player give their placement or action, checking first whether the player
     actually submitted only a Placement when they were supposed to or only an Action when they were supposed to, and whether
     it is legal (if illegal then eliminates the player), and then having the game state do the placement or action. The
     phase type comes into play in order to be able to do phase-specific checks. If a placement/move is illegal, then
     the player is eliminated from the game, and is added to the referee's bad_players list.
-    
-    Also, the player will be eliminated if they don't respond after a time limit or crash/malfunction, which I will
-    add in the future when we deal with remote players. See the top of this file for more detail on what I deem abnormal 
-    interactions.
     """
     def __handle_phase(self, phase_type, exp_structure_type):
         # in order to cycle shift player sequence
@@ -256,11 +248,7 @@ class Referee:
 
     """
     Nothing -> Outcome
-    Reports who won, who lost, and who cheated or failed. I don't think it's necessary to report the actual scores, as
-    I do not see how the tournament manager would be using this information, especially since most likely the 
-    tournaments will be run in a round-robin format (everyone plays against everyone). What's most important here is
-    the winners, as this information will be needed in who won a tournament (since that depends on who won the most games), 
-    and also the cheating/failing players because they cannot play again or sign up for a tournament again. I still wanted to report the losers anyways. 
+    Reports who won, who lost, and who cheated or failed. 
     """
     def __report_outcome(self):
         outcome = {"won": [], "lost": [], "cheated/failed": self.__bad_players}
