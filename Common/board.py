@@ -22,9 +22,7 @@ OF THE CLASS BELOW FOR MORE SPECIFICS.
 
 class Board:
     """
-    This class represents the data representation of a Board. It is passed in the args,row,columns,holes,min_num_one_fish_tiles,
-    num_of_fish_per_tile, which represents the qualities of the board. It contains static functions to
-    check the args. See DATA DEFINITION OF TILES BELOW (right above declaration of tiles class variable).
+    This class is the data representation of a Board. 
     :param rows: the amount of rows, an int
     :param columns: the amount of columns, an int
     :param holes: the posns of the holes, a dict {row : [columns]} where the rows & columns represent the posns of
