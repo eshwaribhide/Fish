@@ -25,7 +25,7 @@ class Board:
 
         self.__rows = rows
         self.__columns = columns
-        # the posns of the holes, a dict {row : [columns]}
+        # a dict {row : [columns]} where a key-val pair is a posn of a hole on the board
         self.__holes = holes
         self.__min_num_one_fish_tiles = min_num_one_fish_tiles
 
