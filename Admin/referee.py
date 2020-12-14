@@ -26,10 +26,9 @@ is the location that the penguin wants to go to. See board.py for details on the
 An Outcome is a Dictionary of the form {"won": List of Player objects, "lost": List of Player objects, 
 "cheated/failed": List of Player objects}.
 
-A Referee is an object created by the tournament manager, SOLELY FOR AN INSTANCE OF A SPECIFIC GAME (IT WON'T BE REUSED). 
-It supervises/runs a Fish game, given an ORDERED list of players and dimensions of the board, and then reports the 
-game outcome once the game is over. THE TOURNAMENT MANAGER ORDERS THE PLAYER LIST BASED ON AGE, MOST LIKELY AGE IS HOW LONG
-THE PLAYERS HAVE EXISTED FOR OR A BIRTHDAY COMMUNICATED VIA SOME MESSAGE TO THE SIGNUP SERVER. 
+A Referee is an object created SOLELY FOR AN INSTANCE OF A SPECIFIC GAME (IT WON'T BE REUSED). 
+It supervises/runs a Fish game, given a list of players ordered by age and dimensions of the board, and then reports the 
+game outcome once the game is over.
 
 IN ORDER TO MAKE SURE THAT THE 
 PLAYER DOES NOT DIRECTLY MANIPULATE THE GAME STATE, THE PLAYER WILL NOT BE ACTUALLY DOING THE PLACING OR THE MOVING; 
@@ -42,12 +41,6 @@ Abnormal interactions between Referee and Player:
 - Gives a data structure other than the expected data structure for the phase it is in. For placement phase, exp structure
 is a List, and for moving phase, exp structure is a tuple. 
 - Gives illegal placements/actions.
-- Does not respond after more than 20-30 seconds when it is the player's turn (will add functionality to check this in remote phase)
-- Player got completely disconnected or player crashes/is malfunctioning (will add functionality to check this in remote phase)
-  - Potentially could add retry mechanism and kick player out after certain number of retries
-  
-Additionally, I am leaving the functionality to report ongoing actions to the game observer to be added later on, when we
-develop the game observer.
 """
 
 # Class Signature: player_seq is a List of Player objects, board_rows is an int, board_columns is an int
