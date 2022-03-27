@@ -150,14 +150,6 @@ class Board:
             return pos_acc
 
     def get_reachable_posns(self, start_posn, lo_all_penguin_posns, recurse=True):
-        """
-        Function to find reachable posns of a tile. There are six directions that define reachability,
-        which are north, northwest, southwest, south, southeast, and northeast. This function will get
-        all the posns that are reachable in all the different directions and then tack them on to
-        reachable_posns, which is the return. There is a flag called recurse. If you only want to see the reachable posns 
-        that are one step away, then recurse will be set to False. If you want to see all the reachable posns, then
-        recurse is True.
-        """
         if self.__check_pos_out_of_bounds(start_posn):
             raise ValueError('Row must be 1 <= x < self.rows, column must be 1 <=x < self.columns')
 
@@ -210,9 +202,6 @@ class Board:
         return reachable_posns
 
     def remove_tile(self, posn):
-        """
-        Removes a tile by setting it to be invisible.
-        """
         if self.__check_pos_out_of_bounds(posn):
             raise ValueError('Row must be 1 <= x < self.rows, column must be 1 <=x < self.columns')
 

@@ -18,9 +18,6 @@ class __Penguin:
 
     # I create one little circle + one oval below it = penguin image
     def draw_penguin(self, canvas):
-        """
-        Draws the penguin on the canvas.
-        """
         # little circle
         canvas.create_oval(self.__x + FISH_SIZE//2, self.__y, self.__x + PENGUIN_SIZE, self.__y+FISH_SIZE, fill=f'{self.__color}')
         # oval below it

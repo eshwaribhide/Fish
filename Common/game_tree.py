@@ -43,13 +43,6 @@ class GameTree:
         # have its child nodes set yet.
         self.__last_nodes = []
 
-    """
-    Nothing -> Nothing
-    
-    A generator function generating a layer of the game tree at every iteration. This does NOT generate the whole tree
-    at once, so the generation is "suspended/frozen" until the next_layer() method is called by the user, which will 
-    advance the generator. Essentially, this method generate_game_tree is never called directly; that is why it is private.
-    """
     def __generate_game_tree(self):
         while True:
             if self.__map_action_to_child_nodes == {}:
@@ -70,20 +63,12 @@ class GameTree:
                 self.__last_nodes = new_last_nodes
                 yield
 
-    """
-    A wrapper method for the build in "next" method, used to advance a generator. 
-    
-    Return "GameDone" if the game is over for all parent nodes in the last computed layer of the tree.
-    """
     def next_layer(self):
         try:
             next(self.__generate_game_tree())
         except StopIteration:
             return "Game Done"
 
-    """
-    Helps to find all the legal successor states (child states) for a given game state.
-    """
     def __get_all_actions_to_child_nodes_help(self, whose_turn, player_penguin_posns, game_state):
         all_actions_to_child_nodes = {}
         for i in range(len(player_penguin_posns)):
@@ -95,9 +80,6 @@ class GameTree:
                 all_actions_to_child_nodes[(tuple(start_posn), tuple(dest_posn))] = GameTree(game_state_copy)
         return all_actions_to_child_nodes
 
-    """
-    Return a List of GameStates that are legal successor states of the given game state. 
-    """
     def all_actions_to_child_nodes(self):
         # "game over" node
         if self.__game_state.is_game_over():
@@ -119,11 +101,6 @@ class GameTree:
             player_penguin_posns = game_state_penguin_posns[whose_turn]
             return self.__get_all_actions_to_child_nodes_help(whose_turn, player_penguin_posns, self.__game_state)
 
-    """
-    If the action is illegal, then I signal this by returning False. Otherwise, I return the GameState that would result 
-    from performing the action by seeing whether this Action is present in the root node's map_action_to_child_nodes and 
-    its linked child GameTree's GameState.
-    """
     def execute_action(self, action):
         for legal_action in self.__map_action_to_child_nodes:
             if action == legal_action:
@@ -131,10 +108,6 @@ class GameTree:
                 return child_node.get_game_state()
         return False
 
-    """
-    Emulates the 'map' function in a way. Given a function, it applies this function to all of the game states that are 
-    legal successor states of the root node's game state.
-    """
     def apply_to_all_children(self, func):
         res = []
 
@@ -148,13 +121,6 @@ class GameTree:
         if None not in res:
             return res
 
-    """
-    A sample method that can be used in the apply_to_all_children method as a function object. It
-    maps each game state to the fish count of the player who just played during the state right before
-    the given state (the previous player).
-    
-    Returns the score of the previous player.
-    """
     @staticmethod
     def score_at_state(game_state):
 
@@ -162,10 +128,6 @@ class GameTree:
         previous_player = game_state_player_order[-1]
         return game_state.get_player_score(previous_player)
 
-    """
-    A sample method that can be used in the apply_to_all_children method as a function object, and it's
-    a wrapper method for the render game state method.
-    """
     @staticmethod
     def render(game_state):
         game_state.render_game_state()

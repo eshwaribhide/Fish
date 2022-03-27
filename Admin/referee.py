@@ -61,13 +61,6 @@ class Referee:
         # a List of failing/cheating Players
         self.__bad_players = []
 
-    """
-    Nothing -> Outcome (see above for Outcome data def)
-  
-    This method will be called by the tournament manager, and will basically run the whole Fish game. At the end,
-    the outcome of the game will be reported. The handle_phase methods will take care of placement phase and
-    moving phase and also handle instances of cheating/failing players.
-    """
     def run_game(self):
         # setup the board, assign the penguin colors to each player, and initialize the current GameState
         self.__setup()
@@ -79,23 +72,12 @@ class Referee:
             self.__handle_phase(MOVING, tuple)
         return self.__report_outcome()
 
-    """
-    Nothing -> Nothing
-    Creates a random board, assigns colors to each player, and then initializes the current GameState. In a GameState,
-    players are all referenced by unique player ids (see player.py for more info on this concept).
-    """
     def __setup(self):
         board = self.__create_board() if self.__test_board is None else self.__test_board
         player_ids = [player.get_player_id() for player in self.__player_seq]
         player_penguin_colors = {player_id: PENGUIN_COLORS[i] for i, player_id in enumerate(player_ids)}
         self.__current_game_state = GameState(board, player_penguin_colors, player_ids)
 
-    """
-    Nothing -> Board object
-    Creates a random board. There is no real logic to this...I just wanted a variety of different Boards to be
-    present. Based on random values that are generated, certain attributes of the board are determined (how many/where
-    the holes are, whether there is a min num of one fish tiles, or whether there is a set num of fish per tile).
-    """
     def __create_board(self):
         rand_val = self.__get_rand_val(RAND_VAL_LOW, RAND_VAL_HIGH)
 
@@ -115,13 +97,6 @@ class Referee:
                 board = Board(self.__board_rows, self.__board_columns, holes)
         return board
 
-    """
-    Nothing -> {row: [col]} where row and col are both ints. So a hole at [1, 2] would have 1 as its key and in the
-    value for that key, which is a List, 2 would be present. See board.py for more information.
-    
-    Determines how many/where the holes are on the board. Again, there is no real logic to this...I just determine
-    these things based on random numbers that are generated.
-    """
     def __create_board_holes(self):
         num_holes = self.__get_rand_val(RAND_VAL_LOW, self.__get_max_num_tiles_with_attr(HOLES_MAX_PERCENT))
         count = 0
@@ -141,33 +116,14 @@ class Referee:
 
         return holes
 
-    """
-    int int -> int
-    Helper method to generate a random value x, where min <= x <= max.
-    """
     @staticmethod
     def __get_rand_val(min, max):
         return random.randint(min, max)
 
-    """
-    int -> int
-    Given a max percentage for an attribute, determines how many tiles on the board can have that attribute
-    (so either holes or one fish tiles).
-    """
     def __get_max_num_tiles_with_attr(self, attr_percentage):
         total_tiles = self.__board_rows * self.__board_columns
         return math.ceil((attr_percentage / 100) * total_tiles)
 
-    """
-    PhaseType List -> Nothing (if phase_type is PLACEMENT). Since type of a Placement is a List. 
-    PhaseType Tuple -> Nothing (if phase_type is MOVING). Since type of an Action is a tuple.
-    
-    Handles either a placement or moving phase by having the player give its placement or action, checking first whether the player
-    actually submitted only a Placement when they were supposed to or only an Action when they were supposed to, and whether
-    it is legal (if illegal then eliminates the player), and then having the game state do the placement or action. The
-    phase type comes into play in order to be able to do phase-specific checks. If a placement/move is illegal, then
-    the player is eliminated from the game, and is added to the referee's bad_players list.
-    """
     def __handle_phase(self, phase_type, exp_structure_type):
         # in order to cycle shift player sequence
         current_player = self.__player_seq.pop(0)
@@ -184,72 +140,31 @@ class Referee:
                 # tacks this on to the end of the player sequence, cycle shift of player sequence
                 self.__player_seq.append(current_player)
 
-    """
-    Player PhaseType -> Placement (if phase_type is PLACEMENT)
-    Player PhaseType -> Action (if phase_type is MOVING)
-    Asks the player to return either where they want to place an avatar or what Action they want to take, based
-    on the phase type.
-    """
     def __place_or_move_avatar(self, current_player, phase_type):
         return current_player.place_avatar(self.__current_game_state) if phase_type == PLACEMENT \
             else current_player.move_avatar(self.__current_game_state)
 
-    """
-    Some Data Structure, List -> Boolean
-    Some Data Structure, Tuple -> Boolean (List or Tuple are the only possible data types, List is the data type of a Placement, 
-    Tuple is the data type of an Action)
-    
-    Returns True if structure is not as expected and False if it is. Helps catch the cases when a Player submits an 
-    Action, for example, when the placement phase is going on. Or maybe the player malfunctions and gives some random 
-    data structure.
-    
-    The len=2 check is because if you see the data def for a Placement, the List has 2 elements, a row and a col. For an Action, 
-    if you see the data def...the tuple has 2 tuples inside of it, representing start and destination positions.
-    """
     @staticmethod
     def __invalid_structure(structure, exp_structure_type):
         return not isinstance(structure, exp_structure_type) or len(structure) != 2
 
-    """
-    Placement, PhaseType -> Boolean
-    Action, PhaseType -> Boolean
-    Returns true if "to_execute", which always will be either of type Placement or Action, is illegal, and False if not.
-    """
     def __is_illegal(self, to_execute, phase_type):
         return self.__is_illegal_placement(to_execute) if phase_type == PLACEMENT else self.__is_illegal_action(to_execute)
 
-    """
-    Placement -> Boolean
-    Returns true if the given Placement is illegal (out of bounds, is occupied, or is a hole) and False if not.
-    """
     def __is_illegal_placement(self, placement):
         return self.__current_game_state.is_pos_out_of_bounds(placement) or \
                not self.__current_game_state.is_unoccupied(placement) or \
                self.__current_game_state.is_hole(placement)
 
-    """
-    Action -> Boolean
-    Returns true if the given Action is illegal (it's not in the GameTree's map of Actions to child nodes) and False if not.
-    """
     def __is_illegal_action(self, action):
         game_tree = GameTree(self.__current_game_state)
         game_tree.next_layer()
         return action not in game_tree.get_map_action_to_child_nodes()
 
-    """
-    Player -> Nothing
-    Removes a Player from the game by calling the GameState remove player method, which removes all a Player's penguins
-    and any of the Player's information from the GameState. The Player DOES NOT get removed from the Referee's knowledge.
-    It will be saved in the referee's list of "bad players" in order to be reported at the end of the game. 
-    """
     def __remove_player(self, player):
         self.__current_game_state.remove_player(player.get_player_id())
         self.__bad_players.append(player)
 
-    """
-    Nothing -> Outcome
-    Reports who won, who lost, and who cheated or failed. 
-    """
     def __report_outcome(self):
         outcome = {"won": [], "lost": [], "cheated/failed": self.__bad_players}
         winning_score = self.__current_game_state.get_winning_score()
@@ -261,37 +176,17 @@ class Referee:
                     outcome["lost"].append(player)
         return outcome
 
-    """
-    Nothing -> [Player]
-    Getter method for the player seq attribute.
-    """
     def get_player_seq(self):
         return self.__player_seq
 
-    """
-    Nothing -> int
-    Getter method for the board rows attribute.
-    """
     def get_board_rows(self):
         return self.__board_rows
 
-    """
-    Nothing -> int
-    Getter method for the board columns attribute.
-    """
     def get_board_columns(self):
         return self.__board_columns
 
-    """
-    Nothing -> GameState
-    Getter method for the current game state attribute.
-    """
     def get_current_game_state(self):
         return self.__current_game_state
 
-    """
-    Nothing -> [Player]
-    Getter method for the bad players attribute.
-    """
     def get_bad_players(self):
         return self.__bad_players
