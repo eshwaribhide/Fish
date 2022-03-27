@@ -46,11 +46,6 @@ class Board:
 
     @staticmethod
     def __error_check_rows_and_columns(rows, columns):
-        """
-       Checks if rows and columns are valid args.
-       :param rows: the amount of rows
-       :param columns: the amount of columns
-        """
         if not isinstance(rows, int) or not isinstance(columns, int):
             raise TypeError('Rows and columns must both be of integer type')
         if rows < 1 or columns < 1:
@@ -58,10 +53,6 @@ class Board:
 
     @staticmethod
     def __error_check_holes(holes):
-        """
-        Checks if holes is a valid arg
-        :param holes: a dict {row : [columns]} representing the hole posns
-        """
         if not isinstance(holes, dict):
             raise TypeError('Holes must be a dictionary')
         for i in holes:
@@ -75,11 +66,6 @@ class Board:
 
     @staticmethod
     def __error_check_min_num_one_fish_tiles(min_num_one_fish_tiles, max_tiles):
-        """
-        Checks if min_num_one_fish_tiles is valid arg
-        :param min_num_one_fish_tiles: the minimum amount of single fish tiles
-        :param max_tiles: the max amount of tiles that can be on the board
-        """
         if not isinstance(min_num_one_fish_tiles, int):
             raise TypeError('Min num one fish tiles must be an int')
         if min_num_one_fish_tiles > max_tiles or min_num_one_fish_tiles < 0:
@@ -87,10 +73,6 @@ class Board:
 
     @staticmethod
     def __error_check_num_of_fish_per_tile(num_of_fish_per_tile):
-        """
-       Checks if num_of_fish_per_tile is a valid arg
-       :param num_of_fish_per_tile: the amount of fish per tile
-       """
         if num_of_fish_per_tile is not None:
             if not isinstance(num_of_fish_per_tile, int):
                 raise TypeError('Num of fish per tile must be either None or an int')
@@ -99,20 +81,10 @@ class Board:
 
     @staticmethod
     def __check_conflict_fish_per_tile(min_num_one_fish_tiles, num_of_fish_per_tile):
-        """
-        Checks if these two values conflict. They cannot both be non-null and greater than 0 at the same time.
-        :param min_num_one_fish_tiles: the minimum amount of single fish tiles
-        :param num_of_fish_per_tile: the amount of fish per tile
-        """
         if num_of_fish_per_tile is not None and num_of_fish_per_tile > 1 and min_num_one_fish_tiles > 0:
             raise ValueError('Cannot have a minimum number of one fish tiles alongside a specified num fish per tile')
 
     def __initialize_game_board(self):
-        """
-        Initializes the board. It takes into consideration different aspects such as whether to add
-        holes, where those holes are, the minimum number of one fish tiles, and the number of fish
-        per tile.
-        """
         num_one_fish_tiles_left_to_add = self.__min_num_one_fish_tiles
         tiles_per_row = []
         for i in range(self.__rows):
@@ -132,12 +104,6 @@ class Board:
         self.__tiles = tiles_per_row
 
     def __check_empty_tile(self, posn):
-        """
-        [int, int] -> bool
-        Checks if the selected tile is empty
-        :param posn a List of the form [row, col] where row and col are both ints
-        :returns True if the tile is invisible and False if it is visible
-        """
         tile_row = posn[0]
         tile_col = posn[1]
         tile = self.__tiles[tile_row][tile_col]
@@ -145,12 +111,6 @@ class Board:
         return not tile_visibility
 
     def __check_pos_out_of_bounds(self, posn):
-        """
-        [int, int] -> bool
-        Checks if the selected tile posn is out of bounds
-        :param posn: an list representing row as first val and col as second val
-        :returns True if either the row or col val is out of bounds and false if not
-        """
         pos_row = posn[0]
         pos_col = posn[1]
 
@@ -159,21 +119,6 @@ class Board:
         return True
 
     def __get_reachable_posns_help(self, start_posn, pos_acc, lo_all_penguin_posns, recurse, **kwargs):
-        """
-         [int, int] [[int, int]] [[int, int]] bool {str:int, str:int, str:int, str:int} -> [[int, int]]
-        Helper function to find reachable posns of a tile. There is a flag called recurse. If you only want to see the reachable posns that are one step
-        away, then recurse will be set to False. If you want to see all the reachable posns, then
-        recurse is True.
-        :param start_posn a List of the form [row, col] where row and col are both ints that we
-        are calculating reachable posns relative to
-        :param pos_acc:  list of all of the reachable posns
-        :param lo_all_penguin_posns: a List of the form [[row, col]] where row and col are both ints, representing
-        posns on which penguins are resting, so as to not deem them reachable.
-        :param recurse Will be true if recursion should be done at the end of the method, and False if not
-        :param **kwargs: keyword args, essentially a dictionary that contains even/odd row/col shifts
-        looks like {"even_row_shift":int, "odd_row_shift":int, "even_col_shift":int, "odd_col_shift":int}
-        :return pos_acc, the list of all the reachable posns, a [[row,col]]
-        """
         tile_row = start_posn[0]
         tile_column = start_posn[1]
 
@@ -206,19 +151,12 @@ class Board:
 
     def get_reachable_posns(self, start_posn, lo_all_penguin_posns, recurse=True):
         """
-        [int, int] [[int, int]] bool -> [[int, int]]
         Function to find reachable posns of a tile. There are six directions that define reachability,
         which are north, northwest, southwest, south, southeast, and northeast. This function will get
         all the posns that are reachable in all the different directions and then tack them on to
         reachable_posns, which is the return. There is a flag called recurse. If you only want to see the reachable posns 
         that are one step away, then recurse will be set to False. If you want to see all the reachable posns, then
         recurse is True.
-        :param start_posn a List of the form [row, col] where row and col are both ints that we
-        are calculating reachable posns relative to
-        :param lo_all_penguin_posns a List of the form [[row, col]] where row and col are both ints, representing
-        posns on which penguins are resting, so as to not deem them reachable.
-        :param recurse Set to true if recursion should be done in the helper method, and False if not
-        :return a double-nested array containing all the posns that are reachable
         """
         if self.__check_pos_out_of_bounds(start_posn):
             raise ValueError('Row must be 1 <= x < self.rows, column must be 1 <=x < self.columns')
@@ -273,9 +211,7 @@ class Board:
 
     def remove_tile(self, posn):
         """
-        int int -> no return (void function)
-        Function remove a tile by setting it to be invisible (representing removed tile).
-        :param posn: a List of the form [row, col] where row and col are both ints
+        Removes a tile by setting it to be invisible.
         """
         if self.__check_pos_out_of_bounds(posn):
             raise ValueError('Row must be 1 <= x < self.rows, column must be 1 <=x < self.columns')
@@ -295,43 +231,19 @@ class Board:
             self.__holes[tile_row] = [tile_column]
 
     def get_rows(self):
-        """
-        Getter method for rows private variable.
-        :return: self.__rows, an int
-        """
         return self.__rows
 
     def get_columns(self):
-        """
-        Getter method for columns private variable.
-        :return: self.__columns, an int
-        """
         return self.__columns
 
     def get_holes(self):
-        """
-        Getter method for holes private variable.
-        :return: self.__holes, a Dict {row:[col vals]}
-        """
         return self.__holes
 
     def get_min_num_one_fish_tiles(self):
-        """
-        Getter method for min num one fish tiles private variable.
-        :return: self.__min_num_one_fish_tiles, an int
-        """
         return self.__min_num_one_fish_tiles
 
     def get_num_of_fish_per_tile(self):
-        """
-        Getter method for num of fish per tile private variable.
-        :return: self.__num_of_fish_per_tile, an int
-        """
         return self.__num_of_fish_per_tile
 
     def get_tiles(self):
-        """
-        Getter method for tiles private variable.
-        :return: self.__tiles a [[Tile]]
-        """
         return self.__tiles

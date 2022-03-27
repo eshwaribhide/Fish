@@ -35,7 +35,7 @@ player does not directly manipulate the game state, the player will not be actua
 the return type of player place_avatar and move_avatar will 
 be the requested placement or action, and if that placement position or action is legal, then the referee will ask 
 the game state to execute it. The referee is therefore in charge of catching any abnormal interactions between the 
-referee and a player and eliminating the player if they do this.
+referee and a player and eliminating the player if it does this.
 
 Abnormal interactions between Referee and Player:
 - Gives a data structure other than the expected data structure for the phase it is in. For placement phase, exp structure
@@ -48,7 +48,7 @@ class Referee:
     # test board is a Board used only for unit testing purposes. For all other cases, it will not be passed in. If it is passed
     # in though, I don't see a need for board_rows and board_columns so they're initialized to None.
     def __init__(self, player_seq, board_rows=None, board_columns=None, test_board=None):
-        # a List of Player objects, already in the order that they will play in
+        # a List of Player objects, already in playing order
         self.__player_seq = player_seq
         # an int
         self.__board_rows = board_rows
@@ -82,7 +82,7 @@ class Referee:
     """
     Nothing -> Nothing
     Creates a random board, assigns colors to each player, and then initializes the current GameState. In a GameState,
-    players are all referenced by their unique player ids (see player.py for more info on this concept).
+    players are all referenced by unique player ids (see player.py for more info on this concept).
     """
     def __setup(self):
         board = self.__create_board() if self.__test_board is None else self.__test_board
@@ -162,7 +162,7 @@ class Referee:
     PhaseType List -> Nothing (if phase_type is PLACEMENT). Since type of a Placement is a List. 
     PhaseType Tuple -> Nothing (if phase_type is MOVING). Since type of an Action is a tuple.
     
-    Handles either a placement or moving phase by having the player give their placement or action, checking first whether the player
+    Handles either a placement or moving phase by having the player give its placement or action, checking first whether the player
     actually submitted only a Placement when they were supposed to or only an Action when they were supposed to, and whether
     it is legal (if illegal then eliminates the player), and then having the game state do the placement or action. The
     phase type comes into play in order to be able to do phase-specific checks. If a placement/move is illegal, then

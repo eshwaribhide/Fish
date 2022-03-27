@@ -40,15 +40,7 @@ class Strategy:
         self.__player_id = player_id
 
     """
-    Nothing -> Nothing
-    
-    Returns the next free spot available on the board, following a zig zag pattern that
-    starts at the top left corner (when you reach the last column of a row, move to the row directly below). I interpret
-    the top left corner as position [0,0] (row 0, column 0), the position directly to the right of it is [0,1]. The position
-    directly below [0,0] is [1,0], etc. Please see board.py for more details on my coordinate system (which follows what I just described).
-    
-    There are no side effects because no game state is passed in; the referee will end up doing the placing based on
-    what is returned by this function. 
+    Please see board.py for more details on my coordinate system (which follows what I just described).
     
     Assumption: The board has enough free slots for which penguins can be placed.
     """
@@ -64,18 +56,6 @@ class Strategy:
                         not self.__game_state.is_hole(desired_posn):
                             return desired_posn
 
-    """
-    int -> Action
-    
-    Picks the action that will realize the "best gain" (highest score/fish count) for the player whose turn it currently is,
-    after looking ahead n > 0 turns in the tree. I return an Action because at the end of the day, the spec says that it 
-    is a player's CHOICE OF ACTION, NOT THAT THE PLAYER HAS TO PERFORM THAT ACTION. If the game terminates before n turns
-    can be executed, then it just takes the player's score at the node where the game ends. 
-    
-    If there is no Action to take, then it will return the empty Action that I described in the Action data def at the
-    top of this file. Basically just an empty tuple ().
-    
-    """
     def which_action_to_take(self, n):
         if n == 0:
             raise ValueError("N must be greater than 0")
@@ -99,16 +79,8 @@ class Strategy:
 
         return self.__get_optimal_action(optimal_actions)
 
-    """
-    GameTree int -> int
-
-    Finds the best gain (highest score) that this Player can obtain after n turns, assuming that all other Players want to
-    minimize this Player's gain, via the minimax algorithm. This will terminate because you can see that I have a base
-    case where I stop if the appropriate number of turns has been played or if the game is over
-    at the given state.
-    """
     def __minimax(self, node, n):
-        # base case, either the player has finished all their turns or there are no moves left after this move
+        # base case, either the player has finished all its turns or there are no moves left after this move
         if n == 0 or node.get_game_state().is_game_over():
             return node.get_game_state().get_player_score(self.__player_id)
         # it is the maximizing player's turn
@@ -126,13 +98,6 @@ class Strategy:
                 value = min(value, self.__minimax(child_node, n))
             return value
 
-    """
-    [int] [Action] -> Action
-    
-    Finds the Action, out of all the possible candidate Actions leading to the best gain (highest fish count),
-    that the player should take in order to obtain the best gain. If there are multiple Actions that can
-    lead to the same gain, tiebreaker functionality is executed.
-    """
     def __get_optimal_action(self, optimal_actions):
         # this means there are multiple optimal actions that can lead to the same best gain
         if len(optimal_actions) > 1:
@@ -147,14 +112,6 @@ class Strategy:
             optimal_action = optimal_actions[0]
         return optimal_action
 
-    """
-    [Action] int -> [Action]
-    The which_pos arg is one of the indexes in an Action for either a start position or destination position.
-    The start position is the first tuple in the Action, so index would be 0, and the destination position is the second tuple 
-    in the Action, so index would be 1.
-    
-    Applies tiebreaker functionality to Actions.
-    """
     @staticmethod
     def __tiebreaker(lo_actions, which_pos):
         # the list of different positions, either from or to positions
@@ -169,23 +126,11 @@ class Strategy:
                 final_actions.append(action)
         return final_actions
 
-    """
-    Nothing -> GameState
-    Getter method for the game state class attribute. 
-    """
     def get_game_state(self):
         return self.__game_state
 
-    """
-    Nothing -> GameTree
-    Getter method for the game tree class attribute. 
-    """
     def get_game_tree(self):
         return self.__game_tree
 
-    """
-    Nothing -> int
-    Getter method for the player id class attribute. 
-    """
     def get_player_id(self):
         return self.__player_id

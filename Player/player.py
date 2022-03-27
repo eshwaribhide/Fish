@@ -23,45 +23,19 @@ class Player:
 
     def __init__(self, player_id):
         self.__player_id = player_id
-        # A boolean that will be True if the game that the Player is playing in has started and is ongoing. If that is 
-        # not true, this will be False (either game has not yet started though Player may/may not be allocated to the game already, or the game ended).
         self.__game_is_ongoing = False
 
-    """
-    Nothing -> Nothing
-    This tells a Player that the game has started, by setting their game_is_ongoing flag to True.
-    """
     def game_has_started(self):
         self.__game_is_ongoing = True
 
-    """
-    Nothing -> Nothing
-    This tells a Player that the game has ended, by setting their game_is_ongoing flag to False.
-    """
     def game_has_ended(self):
         self.__game_is_ongoing = False
 
-    """
-    GameState -> [int, int]
-    This method will ask the player to return the position [row,col] where row and col are both ints for where
-    the player wants to place a penguin on the board. See board.py for details on the coordinate system. I return the 
-    value instead of mutating the game state so that there are no side effects.
-    """
     def place_avatar(self, current_game_state):
         return Strategy(current_game_state, self.__player_id).zig_zag()
 
-    """
-    GameState -> Action
-    This method will ask the player to return the Action it wants to take. If there are no Actions to take, then
-    the Strategy which_action_to_take method (and therefore this method) will return an empty Action, aka (). 
-    The referee will handle this and will ask the game state to skip this player's turn. 
-    """
     def move_avatar(self, current_game_state):
         return Strategy(current_game_state, self.__player_id).which_action_to_take(TURNS_LOOK_AHEAD)
 
-    """
-    Nothing -> int
-    Getter method for the player id attribute.
-    """
     def get_player_id(self):
         return self.__player_id
