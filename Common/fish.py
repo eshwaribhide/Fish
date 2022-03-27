@@ -17,10 +17,8 @@ class __Fish:
     # create one little triangle + one little circle next to it = fish image
     def draw_fish(self, canvas, placement_offset):
         """
-        Draws the fish on the canvas, which is passed in from board.
-        :param placement_offset: dictates whether you are the 1st, 2nd, 3rd...etc fish to be placed. So I move down
-        based on what number fish you are.
-        :param canvas: The canvas is passed in through the board.
+        Draws the fish on the canvas, which is passed in from board. Placement_offset: dictates whether you are the 
+        1st, 2nd, 3rd...etc fish to be placed. So I move down based on what number fish you are.
         """
         #  hor_ver_offset basically dictates the offset to create the bounding box for when we draw the
         #  triangle and circle.
